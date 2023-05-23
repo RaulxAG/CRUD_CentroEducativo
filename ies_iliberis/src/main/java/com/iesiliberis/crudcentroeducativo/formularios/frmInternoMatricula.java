@@ -5,7 +5,9 @@
 package com.iesiliberis.crudcentroeducativo.formularios;
 
 import com.iesiliberis.crudcentroeducativo.controladorDAO.AlumnoDaoImp;
+import com.iesiliberis.crudcentroeducativo.controladorDAO.MatriculaDaoImp;
 import com.iesiliberis.crudcentroeducativo.entidades.Alumno;
+import com.iesiliberis.crudcentroeducativo.entidades.Matricula;
 import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -38,7 +40,7 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
 
      private void configTabla(){ 
     
-     String col[]={"ID","DNI","NOMBRE","APELLIDOS","FECHA NACIMIENTO"};
+     String col[]={"ID","ALUMNO","UNIDAD","DESCRIPCION","FECHA","BAJA"};
         
         DefaultTableModel modelo=new DefaultTableModel(col,0){
         
@@ -49,8 +51,8 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
         
         };
         
-        jtAlumnos.setModel(modelo);
-        jtAlumnos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jtMatriculas.setModel(modelo);
+        jtMatriculas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 
         //configuro evento valor cambiado...
 /*        jtCursos.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
@@ -64,25 +66,27 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
    
    
     private void cargaTabla(){
-        DefaultTableModel modelo=(DefaultTableModel)jtAlumnos.getModel();
+        DefaultTableModel modelo=(DefaultTableModel)jtMatriculas.getModel();
         
-        AlumnoDaoImp alumControler=AlumnoDaoImp.getInstance();
-        String[] fila=new String[5];
+        MatriculaDaoImp matriculaControler=MatriculaDaoImp.getInstance();
+        String[] fila=new String[6];
         
         modelo.setNumRows(0);
         try{
-            List<Alumno> lst=alumControler.getAll();
+            List<Matricula> lst=matriculaControler.getAll();
             
-            for( Alumno alum :lst){
-                fila[0]=""+alum.getId();
-                fila[1]=""+alum.getDni();
-                fila[2]=""+alum.getNombre();
-                fila[3]=""+alum.getApellido1()+ " " + alum.getApellido2();
-                fila[4]=""+alum.getFnacimiento();
+            for( Matricula matri :lst){
+                fila[0]=""+matri.getIdmatricula();
+                fila[1]=""+matri.getIdalumno();
+                fila[2]=""+matri.getIdunidad();
+                fila[3]=""+matri.getDescripcion();
+                fila[4]=""+matri.getfMatricula();
+                fila[5]=""+matri.getfBaja();
+                
                 modelo.addRow(fila);
             }
             //selecciono la primera fila
-           jtAlumnos.setRowSelectionInterval(0,0); 
+           jtMatriculas.setRowSelectionInterval(0,0); 
            
         }catch(Exception e){
             System.out.println("Error:"+e.getMessage());
@@ -109,14 +113,14 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtAlumnos = new javax.swing.JTable();
+        jtMatriculas = new javax.swing.JTable();
         btnActualizar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Alumnos");
+        setTitle("Matriculas");
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 255));
 
@@ -157,7 +161,7 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Alumnos");
+        jLabel2.setText("Matriculas");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -196,7 +200,7 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
 
-        jtAlumnos.setModel(new javax.swing.table.DefaultTableModel(
+        jtMatriculas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -215,12 +219,12 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jtAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
+        jtMatriculas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtAlumnosMouseClicked(evt);
+                jtMatriculasMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jtAlumnos);
+        jScrollPane1.setViewportView(jtMatriculas);
 
         btnActualizar.setText("Actualizar");
         btnActualizar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -241,16 +245,16 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(btnActualizar)
-                        .addGap(52, 52, 52))))
+                        .addGap(68, 68, 68))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnActualizar)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -279,10 +283,10 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
 
         if (evt.getKeyCode()==KeyEvent.VK_ENTER){
-            DefaultTableModel modelo=(DefaultTableModel) jtAlumnos.getModel();
+            DefaultTableModel modelo=(DefaultTableModel) jtMatriculas.getModel();
             TableRowSorter<TableModel> trSorter = new TableRowSorter<TableModel>(modelo);
 
-            jtAlumnos.setRowSorter(trSorter);
+            jtMatriculas.setRowSorter(trSorter);
 
             if (txtBuscar.getText().length()==0) {
                 trSorter.setRowFilter(null);
@@ -294,7 +298,7 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_txtBuscarKeyPressed
 
-    private void jtAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtAlumnosMouseClicked
+    private void jtMatriculasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtMatriculasMouseClicked
         // TODO add your handling code here:
         if (evt.getClickCount()==2){
             // System.out.println("Doble click.....");
@@ -312,30 +316,30 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
             frame.setVisible(true);
 */
         }
-    }//GEN-LAST:event_jtAlumnosMouseClicked
+    }//GEN-LAST:event_jtMatriculasMouseClicked
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
         // TODO add your handling code here:
-        frmAlumnoDetalle formalumno = new frmAlumnoDetalle();
+        frmMatriculaDetalle formmatricula = new frmMatriculaDetalle();
         
-        formalumno.setVisible(true);       
+        formmatricula.setVisible(true);       
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         // TODO add your handling code here:
         
-        Object valor = jtAlumnos.getValueAt(jtAlumnos.getSelectedRow(), 0);
+        Object valor = jtMatriculas.getValueAt(jtMatriculas.getSelectedRow(), 0);
         String strValor = (String) valor;
         int id = Integer.parseInt(strValor);
         
-        if (jtAlumnos.getSelectedRow() != -1) { // Verifica si se ha seleccionado una fila
+        if (jtMatriculas.getSelectedRow() != -1) { // Verifica si se ha seleccionado una fila
         int confirm = JOptionPane.showConfirmDialog(this, "¿Estás seguro de eliminar la fila seleccionada?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
         
         if (confirm == JOptionPane.YES_OPTION) {
-            AlumnoDaoImp adi = AlumnoDaoImp.getInstance();
+            MatriculaDaoImp mdi = MatriculaDaoImp.getInstance();
             
             try {
-                adi.delete(id);
+                mdi.delete(id);
                 
                 cargaTabla();
             } catch (SQLException ex) {
@@ -354,17 +358,17 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
         // TODO add your handling code here:
-        Alumno a = new Alumno();
+        Matricula m = new Matricula();
         
-        Object valor = jtAlumnos.getValueAt(jtAlumnos.getSelectedRow(), 0);
+        Object valor = jtMatriculas.getValueAt(jtMatriculas.getSelectedRow(), 0);
         String strValor = (String) valor;
         int id = Integer.parseInt(strValor);
         
-        a.setId(id);
+        m.setIdmatricula(id);
         
-        frmAlumnoDetalle formalumno= new frmAlumnoDetalle(a);
+        frmMatriculaDetalle formmatricula= new frmMatriculaDetalle(m);
             
-        formalumno.setVisible(true);
+        formmatricula.setVisible(true);
     }//GEN-LAST:event_btnModificarMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -377,7 +381,7 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jtAlumnos;
+    private javax.swing.JTable jtMatriculas;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,7 +5,9 @@
 package com.iesiliberis.crudcentroeducativo.formularios;
 
 import com.iesiliberis.crudcentroeducativo.controladorDAO.AlumnoDaoImp;
+import com.iesiliberis.crudcentroeducativo.controladorDAO.PersonalDaoImp;
 import com.iesiliberis.crudcentroeducativo.entidades.Alumno;
+import com.iesiliberis.crudcentroeducativo.entidades.Personal;
 import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -38,7 +40,7 @@ public class frmInternoPersonal extends javax.swing.JInternalFrame {
 
      private void configTabla(){ 
     
-     String col[]={"ID","DNI","NOMBRE","APELLIDOS","FECHA NACIMIENTO"};
+     String col[]={"ID","DNI","NOMBRE","APELLIDOS","DIRECCION","CP","POBLACION","PROVINCIA","TELEFONO","EMAIL","TIPO"};
         
         DefaultTableModel modelo=new DefaultTableModel(col,0){
         
@@ -49,8 +51,8 @@ public class frmInternoPersonal extends javax.swing.JInternalFrame {
         
         };
         
-        jtAlumnos.setModel(modelo);
-        jtAlumnos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jtPersonal.setModel(modelo);
+        jtPersonal.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 
         //configuro evento valor cambiado...
 /*        jtCursos.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
@@ -64,25 +66,32 @@ public class frmInternoPersonal extends javax.swing.JInternalFrame {
    
    
     private void cargaTabla(){
-        DefaultTableModel modelo=(DefaultTableModel)jtAlumnos.getModel();
+        DefaultTableModel modelo=(DefaultTableModel)jtPersonal.getModel();
         
-        AlumnoDaoImp alumControler=AlumnoDaoImp.getInstance();
-        String[] fila=new String[5];
+        PersonalDaoImp personalControler=PersonalDaoImp.getInstance();
+        String[] fila=new String[11];
         
         modelo.setNumRows(0);
         try{
-            List<Alumno> lst=alumControler.getAll();
+            List<Personal> lst=personalControler.getAll();
             
-            for( Alumno alum :lst){
-                fila[0]=""+alum.getId();
-                fila[1]=""+alum.getDni();
-                fila[2]=""+alum.getNombre();
-                fila[3]=""+alum.getApellido1()+ " " + alum.getApellido2();
-                fila[4]=""+alum.getFnacimiento();
+            for( Personal pers :lst){
+                fila[0]=""+pers.getId();
+                fila[1]=""+pers.getDni();
+                fila[2]=""+pers.getNombre();
+                fila[3]=""+pers.getApellido1()+ " " + pers.getApellido2();
+                fila[4]=""+pers.getDireccion();
+                fila[5]=""+pers.getCp();
+                fila[6]=""+pers.getPoblacion();
+                fila[7]=""+pers.getProvincia();
+                fila[8]=""+pers.getTelefono();
+                fila[9]=""+pers.getEmail();
+                fila[10]=""+pers.getTipo();
+                
                 modelo.addRow(fila);
             }
             //selecciono la primera fila
-           jtAlumnos.setRowSelectionInterval(0,0); 
+           jtPersonal.setRowSelectionInterval(0,0); 
            
         }catch(Exception e){
             System.out.println("Error:"+e.getMessage());
@@ -109,14 +118,14 @@ public class frmInternoPersonal extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtAlumnos = new javax.swing.JTable();
+        jtPersonal = new javax.swing.JTable();
         btnActualizar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Alumnos");
+        setTitle("Personal");
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 255));
 
@@ -157,7 +166,7 @@ public class frmInternoPersonal extends javax.swing.JInternalFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Alumnos");
+        jLabel2.setText("Personal");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -166,7 +175,7 @@ public class frmInternoPersonal extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -177,7 +186,7 @@ public class frmInternoPersonal extends javax.swing.JInternalFrame {
                         .addComponent(btnModificar)
                         .addGap(18, 18, 18)
                         .addComponent(btnEliminar)))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,7 +205,7 @@ public class frmInternoPersonal extends javax.swing.JInternalFrame {
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
 
-        jtAlumnos.setModel(new javax.swing.table.DefaultTableModel(
+        jtPersonal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -215,12 +224,12 @@ public class frmInternoPersonal extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jtAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
+        jtPersonal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtAlumnosMouseClicked(evt);
+                jtPersonalMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jtAlumnos);
+        jScrollPane1.setViewportView(jtPersonal);
 
         btnActualizar.setText("Actualizar");
         btnActualizar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -237,11 +246,11 @@ public class frmInternoPersonal extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(btnActualizar)
-                        .addGap(52, 52, 52))))
+                        .addGap(52, 52, 52))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 837, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -279,10 +288,10 @@ public class frmInternoPersonal extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
 
         if (evt.getKeyCode()==KeyEvent.VK_ENTER){
-            DefaultTableModel modelo=(DefaultTableModel) jtAlumnos.getModel();
+            DefaultTableModel modelo=(DefaultTableModel) jtPersonal.getModel();
             TableRowSorter<TableModel> trSorter = new TableRowSorter<TableModel>(modelo);
 
-            jtAlumnos.setRowSorter(trSorter);
+            jtPersonal.setRowSorter(trSorter);
 
             if (txtBuscar.getText().length()==0) {
                 trSorter.setRowFilter(null);
@@ -294,7 +303,7 @@ public class frmInternoPersonal extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_txtBuscarKeyPressed
 
-    private void jtAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtAlumnosMouseClicked
+    private void jtPersonalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtPersonalMouseClicked
         // TODO add your handling code here:
         if (evt.getClickCount()==2){
             // System.out.println("Doble click.....");
@@ -312,30 +321,30 @@ public class frmInternoPersonal extends javax.swing.JInternalFrame {
             frame.setVisible(true);
 */
         }
-    }//GEN-LAST:event_jtAlumnosMouseClicked
+    }//GEN-LAST:event_jtPersonalMouseClicked
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
         // TODO add your handling code here:
-        frmAlumnoDetalle formalumno = new frmAlumnoDetalle();
+        frmPersonalDetalle formpersonal = new frmPersonalDetalle();
         
-        formalumno.setVisible(true);       
+        formpersonal.setVisible(true);       
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         // TODO add your handling code here:
         
-        Object valor = jtAlumnos.getValueAt(jtAlumnos.getSelectedRow(), 0);
+        Object valor = jtPersonal.getValueAt(jtPersonal.getSelectedRow(), 0);
         String strValor = (String) valor;
         int id = Integer.parseInt(strValor);
         
-        if (jtAlumnos.getSelectedRow() != -1) { // Verifica si se ha seleccionado una fila
+        if (jtPersonal.getSelectedRow() != -1) { // Verifica si se ha seleccionado una fila
         int confirm = JOptionPane.showConfirmDialog(this, "¿Estás seguro de eliminar la fila seleccionada?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
         
         if (confirm == JOptionPane.YES_OPTION) {
-            AlumnoDaoImp adi = AlumnoDaoImp.getInstance();
+            PersonalDaoImp pdi = PersonalDaoImp.getInstance();
             
             try {
-                adi.delete(id);
+                pdi.delete(id);
                 
                 cargaTabla();
             } catch (SQLException ex) {
@@ -354,17 +363,17 @@ public class frmInternoPersonal extends javax.swing.JInternalFrame {
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
         // TODO add your handling code here:
-        Alumno a = new Alumno();
+        Personal p = new Personal();
         
-        Object valor = jtAlumnos.getValueAt(jtAlumnos.getSelectedRow(), 0);
+        Object valor = jtPersonal.getValueAt(jtPersonal.getSelectedRow(), 0);
         String strValor = (String) valor;
         int id = Integer.parseInt(strValor);
         
-        a.setId(id);
+        p.setId(id);
         
-        frmAlumnoDetalle formalumno= new frmAlumnoDetalle(a);
+        frmPersonalDetalle formpersonal= new frmPersonalDetalle(p);
             
-        formalumno.setVisible(true);
+        formpersonal.setVisible(true);
     }//GEN-LAST:event_btnModificarMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -377,7 +386,7 @@ public class frmInternoPersonal extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jtAlumnos;
+    private javax.swing.JTable jtPersonal;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

@@ -130,6 +130,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Personal"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="optmPersonalActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

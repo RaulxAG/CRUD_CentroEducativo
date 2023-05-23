@@ -5,7 +5,9 @@
 package com.iesiliberis.crudcentroeducativo.formularios;
 
 import com.iesiliberis.crudcentroeducativo.controladorDAO.AlumnoDaoImp;
+import com.iesiliberis.crudcentroeducativo.controladorDAO.MatriculaDaoImp;
 import com.iesiliberis.crudcentroeducativo.entidades.Alumno;
+import com.iesiliberis.crudcentroeducativo.entidades.Matricula;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.util.logging.Level;
@@ -31,7 +33,7 @@ public class frmMatriculaDetalle extends javax.swing.JFrame {
         btnModificar.setVisible(false);
     }
     
-    public frmMatriculaDetalle(Alumno a) {
+    public frmMatriculaDetalle(Matricula m) {
         initComponents();
         int x = 940; // Coordenada X
         int y = 380; // Coordenada Y
@@ -40,28 +42,21 @@ public class frmMatriculaDetalle extends javax.swing.JFrame {
         btnAceptar.setVisible(false);
         btnModificar.setVisible(true);
         
-        cargaDatos(a);
+        cargaDatos(m);
     }
 
-    private void cargaDatos(Alumno a) {
+    private void cargaDatos(Matricula m) {
         
-        AlumnoDaoImp adi = AlumnoDaoImp.getInstance();
+        MatriculaDaoImp mdi = MatriculaDaoImp.getInstance();
         
         try {
-            Alumno alumno = adi.getById(a.getId());
+            Matricula matricula = mdi.getById(m.getIdmatricula());
 
-            txtId.setText(String.valueOf(alumno.getId()));
-            txtDni.setText(alumno.getDni());
-            txtNombre.setText(alumno.getNombre());
-            txtApellido1.setText(alumno.getApellido1());
-            txtApellido2.setText(alumno.getApellido2());
-            txtNacimiento.setText(String.valueOf(alumno.getFnacimiento()));
-            txtTelefono.setText(String.valueOf(alumno.getTelefono()));
-            txtEmail.setText(alumno.getEmail());
-            txtDireccion.setText(alumno.getDireccion());
-            txtCp.setText(String.valueOf(alumno.getCp()));
-            txtPoblacion.setText(alumno.getPoblacion());
-            txtProvincia.setText(alumno.getProvincia());
+            txtId.setText(String.valueOf(matricula.getIdmatricula()));
+            txtfMatricula.setText(String.valueOf(matricula.getfMatricula()));
+            txtDescripcion.setText(String.valueOf(matricula.getfBaja()));
+            
+            
         } catch (SQLException ex) {
             Logger.getLogger(frmMatriculaDetalle.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -84,40 +79,24 @@ public class frmMatriculaDetalle extends javax.swing.JFrame {
         btnModificar = new javax.swing.JButton();
         lblId = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
-        txtNombre = new javax.swing.JTextField();
+        txtDescripcion = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        txtApellido1 = new javax.swing.JTextField();
-        txtApellido2 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        txtDni = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
-        txtNacimiento = new javax.swing.JTextField();
+        txtfMatricula = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtTelefono = new javax.swing.JTextField();
-        txtEmail = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        txtDireccion = new javax.swing.JTextField();
-        txtCp = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        txtPoblacion = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        txtProvincia = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
+        txtfBaja = new javax.swing.JTextField();
 
         jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Detalle de alumnos");
+        setTitle("Detalle de matriculas");
         setBackground(new java.awt.Color(102, 102, 255));
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("Detalle Alumno");
+        jLabel12.setText("Detalle Matricula");
         jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 17, -1, -1));
 
         btnAceptar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -146,90 +125,33 @@ public class frmMatriculaDetalle extends javax.swing.JFrame {
         txtId.setFocusable(false);
         jPanel1.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 80, 34, -1));
 
-        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+        txtDescripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreActionPerformed(evt);
+                txtDescripcionActionPerformed(evt);
             }
         });
-        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 151, 71, -1));
+        jPanel1.add(txtDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 151, 210, -1));
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Nombre");
+        jLabel2.setText("Descripcion");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 129, -1, -1));
 
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Apellido1");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(134, 129, -1, -1));
-        jPanel1.add(txtApellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(134, 151, 71, -1));
-
-        txtApellido2.addActionListener(new java.awt.event.ActionListener() {
+        txtfMatricula.setEditable(false);
+        txtfMatricula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtApellido2ActionPerformed(evt);
+                txtfMatriculaActionPerformed(evt);
             }
         });
-        jPanel1.add(txtApellido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 150, 71, -1));
-
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Apellido2");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
-        jPanel1.add(txtDni, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, 83, -1));
-
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Dni");
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 130, 43, -1));
-
-        txtNacimiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNacimientoActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 213, 79, -1));
+        jPanel1.add(txtfMatricula, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 213, 79, -1));
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Fecha Nac.");
+        jLabel5.setText("Fecha Matricula");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 191, -1, -1));
 
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Telefono");
+        jLabel6.setText("Fecha Baja");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(134, 191, -1, -1));
-        jPanel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(134, 213, 88, -1));
-        jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(307, 213, 160, -1));
-
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Email");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(307, 191, -1, -1));
-
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Direccion");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 253, -1, -1));
-
-        txtDireccion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDireccionActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 275, 96, -1));
-        jPanel1.add(txtCp, new org.netbeans.lib.awtextra.AbsoluteConstraints(133, 275, 71, -1));
-
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Codigo Postal");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(134, 253, -1, -1));
-        jPanel1.add(txtPoblacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(444, 275, 84, -1));
-
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("Población");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(307, 253, -1, -1));
-
-        txtProvincia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtProvinciaActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtProvincia, new org.netbeans.lib.awtextra.AbsoluteConstraints(307, 275, 95, -1));
-
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Provincia");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(444, 253, -1, -1));
+        jPanel1.add(txtfBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(134, 213, 88, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -245,31 +167,27 @@ public class frmMatriculaDetalle extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+    private void txtDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescripcionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
+    }//GEN-LAST:event_txtDescripcionActionPerformed
 
-    private void txtNacimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNacimientoActionPerformed
+    private void txtfMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfMatriculaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNacimientoActionPerformed
-
-    private void txtDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDireccionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDireccionActionPerformed
+    }//GEN-LAST:event_txtfMatriculaActionPerformed
 
     private void btnAceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseClicked
         // TODO add your handling code here:
         
         try {
-            String nombre = txtNombre.getText();
+            String nombre = txtDescripcion.getText();
             String apellido1 = txtApellido1.getText();
             String apellido2 = txtApellido2.getText();
             String dni = txtDni.getText();
 
-            String fecha = txtNacimiento.getText();
+            String fecha = txtfMatricula.getText();
             Date fnacimiento = Date.valueOf(fecha);
 
-            int telefono = Integer.valueOf(txtTelefono.getText());
+            int telefono = Integer.valueOf(txtfBaja.getText());
             String email = txtEmail.getText();
             String direccion = txtDireccion.getText();
             int cp = Integer.valueOf(txtCp.getText());
@@ -307,15 +225,15 @@ public class frmMatriculaDetalle extends javax.swing.JFrame {
         // TODO add your handling code here:
        try {
             int id = Integer.valueOf(txtId.getText());
-            String nombre = txtNombre.getText();
+            String nombre = txtDescripcion.getText();
             String apellido1 = txtApellido1.getText();
             String apellido2 = txtApellido2.getText();
             String dni = txtDni.getText();
 
-            String fecha = txtNacimiento.getText();
+            String fecha = txtfMatricula.getText();
             Date fnacimiento = Date.valueOf(fecha);
 
-            int telefono = Integer.valueOf(txtTelefono.getText());
+            int telefono = Integer.valueOf(txtfBaja.getText());
             String email = txtEmail.getText();
             String direccion = txtDireccion.getText();
             int cp = Integer.valueOf(txtCp.getText());
@@ -349,14 +267,6 @@ public class frmMatriculaDetalle extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se han rellenado todos los campos.");
         }
     }//GEN-LAST:event_btnModificarMouseClicked
-
-    private void txtProvinciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProvinciaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtProvinciaActionPerformed
-
-    private void txtApellido2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellido2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtApellido2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -398,31 +308,15 @@ public class frmMatriculaDetalle extends javax.swing.JFrame {
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblId;
-    private javax.swing.JTextField txtApellido1;
-    private javax.swing.JTextField txtApellido2;
-    private javax.swing.JTextField txtCp;
-    private javax.swing.JTextField txtDireccion;
-    private javax.swing.JTextField txtDni;
-    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtId;
-    private javax.swing.JTextField txtNacimiento;
-    private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtPoblacion;
-    private javax.swing.JTextField txtProvincia;
-    private javax.swing.JTextField txtTelefono;
+    private javax.swing.JTextField txtfBaja;
+    private javax.swing.JTextField txtfMatricula;
     // End of variables declaration//GEN-END:variables
 }

@@ -57,7 +57,7 @@ public class Personal {
         return nombre;
     }
 
-    public void setJuan(String nombre) {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 

@@ -287,6 +287,11 @@ public class frmMain extends javax.swing.JFrame {
         editMenu.add(optmAutorizaciones);
 
         optmPersonal.setText("Personal");
+        optmPersonal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optmPersonalActionPerformed(evt);
+            }
+        });
         editMenu.add(optmPersonal);
 
         menuBar.add(editMenu);
@@ -434,6 +439,18 @@ public class frmMain extends javax.swing.JFrame {
             form.show();         
         }
     }//GEN-LAST:event_optmAutorizadosActionPerformed
+
+    private void optmPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optmPersonalActionPerformed
+        // TODO add your handling code here:
+        
+        frmInternoPersonal form=null;
+       
+        if (!existeFormulario(form)){
+            form=new frmInternoPersonal();
+            pnldEscritorio.add(form);
+            form.show();         
+        }
+    }//GEN-LAST:event_optmPersonalActionPerformed
 
     /**
      * @param args the command line arguments
