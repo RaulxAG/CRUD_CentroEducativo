@@ -6,11 +6,14 @@ package com.iesiliberis.crudcentroeducativo.formularios;
 
 import com.iesiliberis.crudcentroeducativo.controladorDAO.AlumnoDaoImp;
 import com.iesiliberis.crudcentroeducativo.controladorDAO.MatriculaDaoImp;
+import com.iesiliberis.crudcentroeducativo.controladorDAO.UnidadDaoImp;
 import com.iesiliberis.crudcentroeducativo.entidades.Alumno;
 import com.iesiliberis.crudcentroeducativo.entidades.Matricula;
+import com.iesiliberis.crudcentroeducativo.entidades.Unidad;
 import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,6 +72,8 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
         DefaultTableModel modelo=(DefaultTableModel)jtMatriculas.getModel();
         
         MatriculaDaoImp matriculaControler=MatriculaDaoImp.getInstance();
+        AlumnoDaoImp adi = AlumnoDaoImp.getInstance();
+        UnidadDaoImp udi = UnidadDaoImp.getInstance();
         String[] fila=new String[6];
         
         modelo.setNumRows(0);
@@ -77,8 +82,8 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
             
             for( Matricula matri :lst){
                 fila[0]=""+matri.getIdmatricula();
-                fila[1]=""+matri.getIdalumno();
-                fila[2]=""+matri.getIdunidad();
+                fila[1]=""+adi.getById(matri.getIdalumno()).getDni();
+                fila[2]=""+udi.getById(matri.getIdunidad()).getCodigo();
                 fila[3]=""+matri.getDescripcion();
                 fila[4]=""+matri.getfMatricula();
                 fila[5]=""+matri.getfBaja();
@@ -93,7 +98,65 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
         }
     }
     
+    private void cargaTablaAltas(){
+        DefaultTableModel modelo=(DefaultTableModel)jtMatriculas.getModel();
+        
+        MatriculaDaoImp matriculaControler=MatriculaDaoImp.getInstance();
+        AlumnoDaoImp adi = AlumnoDaoImp.getInstance();
+        UnidadDaoImp udi = UnidadDaoImp.getInstance();
+        String[] fila=new String[6];
+        
+        modelo.setNumRows(0);
+        try{
+            List<Matricula> lst=matriculaControler.getAllAltas();
+            
+            for( Matricula matri :lst){
+                fila[0]=""+matri.getIdmatricula();
+                fila[1]=""+adi.getById(matri.getIdalumno()).getDni();
+                fila[2]=""+udi.getById(matri.getIdunidad()).getCodigo();
+                fila[3]=""+matri.getDescripcion();
+                fila[4]=""+matri.getfMatricula();
+                fila[5]=""+matri.getfBaja();
+                
+                modelo.addRow(fila);
+            }
+            //selecciono la primera fila
+           jtMatriculas.setRowSelectionInterval(0,0); 
+           
+        }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+    }
     
+    private void cargaTablaBajas(){
+        DefaultTableModel modelo=(DefaultTableModel)jtMatriculas.getModel();
+        
+        MatriculaDaoImp matriculaControler=MatriculaDaoImp.getInstance();
+        AlumnoDaoImp adi = AlumnoDaoImp.getInstance();
+        UnidadDaoImp udi = UnidadDaoImp.getInstance();
+        String[] fila=new String[6];
+        
+        modelo.setNumRows(0);
+        try{
+            List<Matricula> lst=matriculaControler.getAllBajas();
+            
+            for( Matricula matri :lst){
+                fila[0]=""+matri.getIdmatricula();
+                fila[1]=""+adi.getById(matri.getIdalumno()).getDni();
+                fila[2]=""+udi.getById(matri.getIdunidad()).getCodigo();
+                fila[3]=""+matri.getDescripcion();
+                fila[4]=""+matri.getfMatricula();
+                fila[5]=""+matri.getfBaja();
+                
+                modelo.addRow(fila);
+            }
+            //selecciono la primera fila
+           jtMatriculas.setRowSelectionInterval(0,0); 
+           
+        }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -115,6 +178,8 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtMatriculas = new javax.swing.JTable();
         btnActualizar = new javax.swing.JButton();
+        btnBajas = new javax.swing.JButton();
+        btnAltas = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -149,6 +214,11 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnModificarMouseClicked(evt);
+            }
+        });
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
             }
         });
 
@@ -233,6 +303,20 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
             }
         });
 
+        btnBajas.setText("Bajas");
+        btnBajas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBajasMouseClicked(evt);
+            }
+        });
+
+        btnAltas.setText("Altas");
+        btnAltas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAltasMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -244,6 +328,10 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnAltas)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBajas)
+                        .addGap(18, 18, 18)
                         .addComponent(btnActualizar)
                         .addGap(68, 68, 68))))
         );
@@ -253,7 +341,10 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnActualizar)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnActualizar)
+                    .addComponent(btnBajas)
+                    .addComponent(btnAltas))
                 .addContainerGap(74, Short.MAX_VALUE))
         );
 
@@ -339,8 +430,35 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
             MatriculaDaoImp mdi = MatriculaDaoImp.getInstance();
             
             try {
-                mdi.delete(id);
+                Matricula m = new Matricula();
+                AlumnoDaoImp adi = AlumnoDaoImp.getInstance();
+                Alumno alumno = adi.getBydni((String) jtMatriculas.getValueAt(jtMatriculas.getSelectedRow(), 1));
                 
+                UnidadDaoImp udi = UnidadDaoImp.getInstance();
+                Unidad unidad = udi.getBycodigo((String) jtMatriculas.getValueAt(jtMatriculas.getSelectedRow(), 2));
+                
+                int idalumno = alumno.getId();
+                int idunidad = unidad.getId();
+                
+                Object matricula = jtMatriculas.getValueAt(jtMatriculas.getSelectedRow(), 0);
+                String strMatricula = (String) matricula;
+                int idmatricula = Integer.parseInt(strMatricula);
+                
+                Object descripcion = jtMatriculas.getValueAt(jtMatriculas.getSelectedRow(), 3);
+                String strdescripcion = (String) descripcion;
+                
+                Object fmatricula = jtMatriculas.getValueAt(jtMatriculas.getSelectedRow(), 4);
+                String strfmatricula = (String) fmatricula;
+                
+                m.setIdmatricula(idmatricula);
+                m.setIdalumno(idalumno);
+                m.setIdunidad(idunidad);
+                m.setDescripcion(strdescripcion);
+                m.setfMatricula(Date.valueOf(strfmatricula));
+                m.setfBaja(Date.valueOf(LocalDate.now()));
+                
+                mdi.update(m);
+                JOptionPane.showMessageDialog(this, "Dado de baja");
                 cargaTabla();
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
@@ -371,9 +489,26 @@ public class frmInternoMatricula extends javax.swing.JInternalFrame {
         formmatricula.setVisible(true);
     }//GEN-LAST:event_btnModificarMouseClicked
 
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnAltasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltasMouseClicked
+        // TODO add your handling code here:
+        cargaTablaAltas();
+        
+    }//GEN-LAST:event_btnAltasMouseClicked
+
+    private void btnBajasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBajasMouseClicked
+        // TODO add your handling code here:
+        cargaTablaBajas();
+    }//GEN-LAST:event_btnBajasMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAltas;
+    private javax.swing.JButton btnBajas;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JLabel jLabel1;

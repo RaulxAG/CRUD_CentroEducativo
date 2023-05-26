@@ -50,17 +50,8 @@ public class frmInternoAlumnos extends javax.swing.JInternalFrame {
         };
         
         jtAlumnos.setModel(modelo);
-        jtAlumnos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                
-        //configuro evento valor cambiado...
-/*        jtCursos.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-        public void valueChanged(ListSelectionEvent event) {
-            System.out.println(jtCursos.getValueAt(jtCursos.getSelectedRow(), 0).toString());
-            setCampos();
-        }
-    });
-  */      
-}
+        jtAlumnos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);   
+    }
    
    
     private void cargaTabla(){

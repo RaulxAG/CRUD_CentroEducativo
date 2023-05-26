@@ -5,6 +5,7 @@
 package com.iesiliberis.crudcentroeducativo.formularios;
 
 import com.iesiliberis.crudcentroeducativo.controladorDAO.AlumnoDaoImp;
+import com.iesiliberis.crudcentroeducativo.controladorDAO.CursoAcademicoDaoImp;
 import com.iesiliberis.crudcentroeducativo.controladorDAO.CursoDaoImp;
 import com.iesiliberis.crudcentroeducativo.entidades.Alumno;
 import com.iesiliberis.crudcentroeducativo.entidades.Curso;
@@ -38,9 +39,9 @@ public class frmInternoCurso extends javax.swing.JInternalFrame {
         cargaTabla();
     }
 
-     private void configTabla(){ 
+    private void configTabla(){ 
     
-     String col[]={"ID","CODIGO","NOMBRE","OBSERVACIONES","CURSO ACADEMICO"};
+        String col[]={"ID","CODIGO","NOMBRE","OBSERVACIONES","CURSO ACADEMICO"};
         
         DefaultTableModel modelo=new DefaultTableModel(col,0){
         
@@ -52,18 +53,8 @@ public class frmInternoCurso extends javax.swing.JInternalFrame {
         };
         
         jtCursos.setModel(modelo);
-        jtCursos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                
-        //configuro evento valor cambiado...
-/*        jtCursos.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-        public void valueChanged(ListSelectionEvent event) {
-            System.out.println(jtCursos.getValueAt(jtCursos.getSelectedRow(), 0).toString());
-            setCampos();
-        }
-    });
-  */      
-}
-   
+        jtCursos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);   
+    }
    
     private void cargaTabla(){
         DefaultTableModel modelo=(DefaultTableModel)jtCursos.getModel();
@@ -75,12 +66,14 @@ public class frmInternoCurso extends javax.swing.JInternalFrame {
         try{
             List<Curso> lst=cursoControler.getAll();
             
+            CursoAcademicoDaoImp cadi = CursoAcademicoDaoImp.getInstance();
+            
             for( Curso cur :lst){
                 fila[0]=""+cur.getId();
                 fila[1]=""+cur.getCodigo();
                 fila[2]=""+cur.getNombre();
                 fila[3]=""+cur.getObservaciones();
-                fila[4]=""+cur.getIdcursoacademico();
+                fila[4]=""+cadi.getById(cur.getIdcursoacademico()).getDescripcion();
                 modelo.addRow(fila);
             }
             //selecciono la primera fila

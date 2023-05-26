@@ -38,9 +38,9 @@ public class frmInternoCursoAcademico extends javax.swing.JInternalFrame {
         cargaTabla();
     }
 
-     private void configTabla(){ 
+    private void configTabla(){ 
     
-     String col[]={"ID","INICIO","FIN","DESCRIPCION"};
+        String col[]={"ID","INICIO","FIN","DESCRIPCION"};
         
         DefaultTableModel modelo=new DefaultTableModel(col,0){
         
@@ -52,17 +52,8 @@ public class frmInternoCursoAcademico extends javax.swing.JInternalFrame {
         };
         
         jtCursoAca.setModel(modelo);
-        jtCursoAca.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                
-        //configuro evento valor cambiado...
-/*        jtCursos.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-        public void valueChanged(ListSelectionEvent event) {
-            System.out.println(jtCursos.getValueAt(jtCursos.getSelectedRow(), 0).toString());
-            setCampos();
-        }
-    });
-  */      
-}
+        jtCursoAca.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);    
+    }
    
    
     private void cargaTabla(){

@@ -5,6 +5,9 @@
 package com.iesiliberis.crudcentroeducativo.formularios;
 
 import com.iesiliberis.crudcentroeducativo.controladorDAO.AlumnoDaoImp;
+import com.iesiliberis.crudcentroeducativo.controladorDAO.AulaDaoImp;
+import com.iesiliberis.crudcentroeducativo.controladorDAO.CursoDaoImp;
+import com.iesiliberis.crudcentroeducativo.controladorDAO.PersonalDaoImp;
 import com.iesiliberis.crudcentroeducativo.controladorDAO.UnidadDaoImp;
 import com.iesiliberis.crudcentroeducativo.entidades.Alumno;
 import com.iesiliberis.crudcentroeducativo.entidades.Unidad;
@@ -69,6 +72,9 @@ public class frmInternoUnidad extends javax.swing.JInternalFrame {
         DefaultTableModel modelo=(DefaultTableModel)jtUnidades.getModel();
         
         UnidadDaoImp unidadControler=UnidadDaoImp.getInstance();
+        CursoDaoImp cdi = CursoDaoImp.getInstance();
+        AulaDaoImp adi = AulaDaoImp.getInstance();
+        PersonalDaoImp pdi = PersonalDaoImp.getInstance();
         String[] fila=new String[7];
         
         modelo.setNumRows(0);
@@ -80,9 +86,9 @@ public class frmInternoUnidad extends javax.swing.JInternalFrame {
                 fila[1]=""+uni.getCodigo();
                 fila[2]=""+uni.getNombre();
                 fila[3]=""+uni.getObservaciones();
-                fila[4]=""+uni.getIdcurso();
-                fila[5]=""+uni.getIdtutor();
-                fila[6]=""+uni.getIdaula();
+                fila[4]=""+cdi.getById(uni.getIdcurso()).getNombre();
+                fila[5]=""+pdi.getById(uni.getIdtutor()).getNombre();
+                fila[6]=""+adi.getById(uni.getIdaula()).getCodigo();
                 
                 modelo.addRow(fila);
             }

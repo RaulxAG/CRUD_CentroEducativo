@@ -72,7 +72,7 @@ public class MatriculaDaoImp implements MatriculaDao {
                 matri.setIdunidad(rs.getInt("idunidad"));
                 matri.setDescripcion(rs.getString("descripcion"));
                 matri.setfMatricula(rs.getDate("fMatricula"));
-                matri.setfMatricula(rs.getDate("fBaja"));
+                matri.setfBaja(rs.getDate("fBaja"));
                 
             }
             
@@ -85,6 +85,64 @@ public class MatriculaDaoImp implements MatriculaDao {
     public List<Matricula> getAll() throws SQLException {
         Matricula matri=null;
         String sql="select * from matricula";
+        
+        List<Matricula> result=new ArrayList();
+
+        try(Connection cn=MyDataSource.getConnection();
+            PreparedStatement pstm=cn.prepareStatement(sql);){
+         
+            ResultSet rs=pstm.executeQuery();
+            
+            while (rs.next()){
+                matri=new Matricula();
+                
+                matri.setIdmatricula(rs.getInt("idmatricula"));
+                matri.setIdalumno(rs.getInt("idalumno"));
+                matri.setIdunidad(rs.getInt("idunidad"));
+                matri.setDescripcion(rs.getString("descripcion"));
+                matri.setfMatricula(rs.getDate("fMatricula"));
+                matri.setfBaja(rs.getDate("fBaja"));
+                
+                result.add(matri);
+            }
+            
+        }
+        
+        return result;
+    }
+    
+    public List<Matricula> getAllBajas() throws SQLException {
+        Matricula matri=null;
+        String sql="select * from matricula where fbaja is not null";
+        
+        List<Matricula> result=new ArrayList();
+
+        try(Connection cn=MyDataSource.getConnection();
+            PreparedStatement pstm=cn.prepareStatement(sql);){
+         
+            ResultSet rs=pstm.executeQuery();
+            
+            while (rs.next()){
+                matri=new Matricula();
+                
+                matri.setIdmatricula(rs.getInt("idmatricula"));
+                matri.setIdalumno(rs.getInt("idalumno"));
+                matri.setIdunidad(rs.getInt("idunidad"));
+                matri.setDescripcion(rs.getString("descripcion"));
+                matri.setfMatricula(rs.getDate("fMatricula"));
+                matri.setfBaja(rs.getDate("fBaja"));
+                
+                result.add(matri);
+            }
+            
+        }
+        
+        return result;
+    }
+    
+    public List<Matricula> getAllAltas() throws SQLException {
+        Matricula matri=null;
+        String sql="select * from matricula where fbaja is null";
         
         List<Matricula> result=new ArrayList();
 

@@ -83,6 +83,28 @@ public class UnidadDaoImp implements UnidadDao {
         return unidad;
     }
 
+    public Unidad getBycodigo(String codigo) throws SQLException {
+        Unidad unidad=null;
+        String sql="select * from unidad where codigo=?";
+
+        try(Connection cn=MyDataSource.getConnection();
+            PreparedStatement pstm=cn.prepareStatement(sql);){
+        
+            pstm.setString(1, codigo);
+            
+            ResultSet rs=pstm.executeQuery();
+            
+            if (rs.next()){
+                unidad=new Unidad();
+                
+                unidad.setId(rs.getInt("id"));
+            }
+            
+        }
+        
+        return unidad;
+    }
+    
     @Override
     public List<Unidad> getAll() throws SQLException {
         Unidad unidad=null;

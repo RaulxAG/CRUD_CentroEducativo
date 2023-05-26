@@ -52,18 +52,8 @@ public class frmInternoAula extends javax.swing.JInternalFrame {
         };
         
         jtAula.setModel(modelo);
-        jtAula.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                
-        //configuro evento valor cambiado...
-/*        jtCursos.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-        public void valueChanged(ListSelectionEvent event) {
-            System.out.println(jtCursos.getValueAt(jtCursos.getSelectedRow(), 0).toString());
-            setCampos();
-        }
-    });
-  */      
+        jtAula.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);     
 }
-   
    
     private void cargaTabla(){
         DefaultTableModel modelo=(DefaultTableModel)jtAula.getModel();

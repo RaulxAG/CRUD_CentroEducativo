@@ -97,6 +97,51 @@ public class AlumnoDaoImp implements AlumnoDao {
         return alum;
     }
 
+    
+    public Alumno getBydni(String dni) throws SQLException {
+        Alumno alum=null;
+        String sql="select * from alumno where dni=?";
+
+        try(Connection cn=MyDataSource.getConnection();
+            PreparedStatement pstm=cn.prepareStatement(sql);){
+        
+            pstm.setString(1, dni);
+            
+            ResultSet rs=pstm.executeQuery();
+            
+            if (rs.next()){
+                alum=new Alumno();
+                
+                alum.setId(rs.getInt("id"));
+            }
+            
+        }
+        
+        return alum;
+    }
+    
+    public Alumno getBynombre(String nombre) throws SQLException {
+        Alumno alum=null;
+        String sql="select * from alumno where nombre=?";
+
+        try(Connection cn=MyDataSource.getConnection();
+            PreparedStatement pstm=cn.prepareStatement(sql);){
+        
+            pstm.setString(1, nombre);
+            
+            ResultSet rs=pstm.executeQuery();
+            
+            if (rs.next()){
+                alum=new Alumno();
+                
+                alum.setId(rs.getInt("id"));
+            }
+            
+        }
+        
+        return alum;
+    }
+    
     @Override
     public List<Alumno> getAll() throws SQLException {
         Alumno alum=null;

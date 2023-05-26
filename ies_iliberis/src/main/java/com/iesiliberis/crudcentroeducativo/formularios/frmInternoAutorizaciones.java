@@ -5,7 +5,11 @@
 package com.iesiliberis.crudcentroeducativo.formularios;
 
 import com.iesiliberis.crudcentroeducativo.controladorDAO.AlumnoDaoImp;
+import com.iesiliberis.crudcentroeducativo.controladorDAO.AutorizacionesDaoImp;
+import com.iesiliberis.crudcentroeducativo.controladorDAO.AutorizadoDaoImp;
 import com.iesiliberis.crudcentroeducativo.entidades.Alumno;
+import com.iesiliberis.crudcentroeducativo.entidades.Autorizaciones;
+import com.iesiliberis.crudcentroeducativo.entidades.Autorizado;
 import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -38,7 +42,7 @@ public class frmInternoAutorizaciones extends javax.swing.JInternalFrame {
 
      private void configTabla(){ 
     
-     String col[]={"ID","DNI","NOMBRE","APELLIDOS","FECHA NACIMIENTO"};
+     String col[]={"Alumno","Autorizado por"};
         
         DefaultTableModel modelo=new DefaultTableModel(col,0){
         
@@ -66,19 +70,20 @@ public class frmInternoAutorizaciones extends javax.swing.JInternalFrame {
     private void cargaTabla(){
         DefaultTableModel modelo=(DefaultTableModel)jtAutorizados.getModel();
         
-        AlumnoDaoImp alumControler=AlumnoDaoImp.getInstance();
-        String[] fila=new String[5];
+        AutorizacionesDaoImp autorizacionesControler=AutorizacionesDaoImp.getInstance();
+        String[] fila=new String[2];
         
         modelo.setNumRows(0);
         try{
-            List<Alumno> lst=alumControler.getAll();
+            List<Autorizaciones> lst=autorizacionesControler.getAll();
             
-            for( Alumno alum :lst){
-                fila[0]=""+alum.getId();
-                fila[1]=""+alum.getDni();
-                fila[2]=""+alum.getNombre();
-                fila[3]=""+alum.getApellido1()+ " " + alum.getApellido2();
-                fila[4]=""+alum.getFnacimiento();
+            AlumnoDaoImp alum = AlumnoDaoImp.getInstance();
+            AutorizadoDaoImp autor = AutorizadoDaoImp.getInstance();
+            
+            for( Autorizaciones autorizacion :lst){
+                fila[0]=""+alum.getById(autorizacion.getIdalumno()).getNombre();
+                fila[1]=""+autor.getById(autorizacion.getIdautorizado()).getDni();
+                
                 modelo.addRow(fila);
             }
             //selecciono la primera fila
@@ -116,7 +121,7 @@ public class frmInternoAutorizaciones extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Autorizados");
+        setTitle("Autorizaciones");
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 255));
 
@@ -157,7 +162,7 @@ public class frmInternoAutorizaciones extends javax.swing.JInternalFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Autorizados");
+        jLabel2.setText("Autorizaciones");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -316,9 +321,9 @@ public class frmInternoAutorizaciones extends javax.swing.JInternalFrame {
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
         // TODO add your handling code here:
-        frmAlumnoDetalle formalumno = new frmAlumnoDetalle();
+        frmAutorizacionesDetalle formautorizaciones = new frmAutorizacionesDetalle();
         
-        formalumno.setVisible(true);       
+        formautorizaciones.setVisible(true);       
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
@@ -354,17 +359,27 @@ public class frmInternoAutorizaciones extends javax.swing.JInternalFrame {
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
         // TODO add your handling code here:
-        Alumno a = new Alumno();
+        Autorizaciones a = new Autorizaciones();
+        
+        
+        AutorizadoDaoImp audi = AutorizadoDaoImp.getInstance();
+        Autorizado autorizado = new Autorizado();
         
         Object valor = jtAutorizados.getValueAt(jtAutorizados.getSelectedRow(), 0);
-        String strValor = (String) valor;
-        int id = Integer.parseInt(strValor);
+        String alumno = (String) valor;
         
-        a.setId(id);
+        AlumnoDaoImp adi = AlumnoDaoImp.getInstance();
         
-        frmAlumnoDetalle formalumno= new frmAlumnoDetalle(a);
+        
+        try {
+            a.setIdalumno(adi.getBynombre(alumno).getId());
+        } catch (SQLException ex) {
+            Logger.getLogger(frmInternoAutorizaciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        frmAutorizacionesDetalle formautorizaciones= new frmAutorizacionesDetalle(a);
             
-        formalumno.setVisible(true);
+        formautorizaciones.setVisible(true);
     }//GEN-LAST:event_btnModificarMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

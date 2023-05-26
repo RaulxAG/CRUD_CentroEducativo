@@ -52,16 +52,7 @@ public class frmInternoAutorizado extends javax.swing.JInternalFrame {
         };
         
         jtAutorizado.setModel(modelo);
-        jtAutorizado.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                
-        //configuro evento valor cambiado...
-/*        jtCursos.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-        public void valueChanged(ListSelectionEvent event) {
-            System.out.println(jtCursos.getValueAt(jtCursos.getSelectedRow(), 0).toString());
-            setCampos();
-        }
-    });
-  */      
+        jtAutorizado.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);    
 }
    
    
@@ -119,7 +110,7 @@ public class frmInternoAutorizado extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Alumnos");
+        setTitle("Autorizados");
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 255));
 
@@ -155,6 +146,11 @@ public class frmInternoAutorizado extends javax.swing.JInternalFrame {
         btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnEliminarMouseClicked(evt);
+            }
+        });
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
             }
         });
 
@@ -369,6 +365,10 @@ public class frmInternoAutorizado extends javax.swing.JInternalFrame {
             
         formautorizado.setVisible(true);
     }//GEN-LAST:event_btnModificarMouseClicked
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;

@@ -5,15 +5,20 @@
 package com.iesiliberis.crudcentroeducativo.formularios;
 
 import com.iesiliberis.crudcentroeducativo.controladorDAO.AlumnoDaoImp;
+import com.iesiliberis.crudcentroeducativo.controladorDAO.CursoAcademicoDaoImp;
 import com.iesiliberis.crudcentroeducativo.controladorDAO.CursoDaoImp;
 import com.iesiliberis.crudcentroeducativo.entidades.Alumno;
 import com.iesiliberis.crudcentroeducativo.entidades.Curso;
+import com.iesiliberis.crudcentroeducativo.entidades.CursoAcademico;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -28,7 +33,8 @@ public class frmCursoDetalle extends javax.swing.JFrame {
         int x = 940; // Coordenada X
         int y = 380; // Coordenada Y
         setLocation(x, y);
-        
+        configTabla();
+        cargaTabla();
         btnAceptar.setVisible(true);
         btnModificar.setVisible(false);
     }
@@ -38,11 +44,55 @@ public class frmCursoDetalle extends javax.swing.JFrame {
         int x = 940; // Coordenada X
         int y = 380; // Coordenada Y
         setLocation(x, y);
-        
+        configTabla();
+        cargaTabla();
         btnAceptar.setVisible(false);
         btnModificar.setVisible(true);
         
         cargaDatos(c);
+    }
+    
+    private void configTabla(){ 
+    
+        String col[]={"ID","INICIO","FIN","DESCRIPCION"};
+        
+        DefaultTableModel modelo=new DefaultTableModel(col,0){
+        
+              @Override
+              public boolean isCellEditable(int row, int column){
+                  return false;
+              }
+        
+        };
+        
+        jtCursoAca.setModel(modelo);
+        jtCursoAca.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);    
+    }
+   
+   
+    private void cargaTabla(){
+        DefaultTableModel modelo=(DefaultTableModel)jtCursoAca.getModel();
+        
+        CursoAcademicoDaoImp cursoacacontroller=CursoAcademicoDaoImp.getInstance();
+        String[] fila=new String[4];
+        
+        modelo.setNumRows(0);
+        try{
+            List<CursoAcademico> lst=cursoacacontroller.getAll();
+            
+            for( CursoAcademico c :lst){
+                fila[0]=""+c.getId();
+                fila[1]=""+c.getYearinicio();
+                fila[2]=""+c.getYearfin();
+                fila[3]=""+c.getDescripcion();
+                modelo.addRow(fila);
+            }
+            //selecciono la primera fila
+           jtCursoAca.setRowSelectionInterval(0,0); 
+           
+        }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
     }
 
     private void cargaDatos(Curso c) {
@@ -52,11 +102,14 @@ public class frmCursoDetalle extends javax.swing.JFrame {
         try {
             Curso curso = cdi.getById(c.getId());
 
+            CursoAcademicoDaoImp cadi = CursoAcademicoDaoImp.getInstance();
+            CursoAcademico ca = cadi.getById(curso.getIdcursoacademico());
+            
             txtId.setText(String.valueOf(curso.getId()));
             txtCodigo.setText(curso.getCodigo());
             txtNombre.setText(curso.getNombre());
             txtObservaciones.setText(curso.getObservaciones());
-            txtIdCursoaca.setText(String.valueOf(curso.getIdcursoacademico()));
+            txtIdCursoaca.setText(ca.getDescripcion());
             
         } catch (SQLException ex) {
             Logger.getLogger(frmCursoDetalle.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,6 +141,9 @@ public class frmCursoDetalle extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtIdCursoaca = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtCursoAca = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
 
@@ -156,19 +212,45 @@ public class frmCursoDetalle extends javax.swing.JFrame {
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 191, -1, -1));
 
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("id. curso academico");
+        jLabel6.setText("curso academico");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, -1, -1));
+
+        txtIdCursoaca.setEditable(false);
         jPanel1.add(txtIdCursoaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, 88, -1));
+
+        jtCursoAca.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jtCursoAca.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtCursoAcaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtCursoAca);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, 340, 180));
+
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("cursos academicos");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 180, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
         );
 
         pack();
@@ -190,15 +272,18 @@ public class frmCursoDetalle extends javax.swing.JFrame {
             String nombre = txtNombre.getText();
             String observaciones = txtObservaciones.getText();
             String idcursoaca = txtIdCursoaca.getText();
-            String fecha = txtObservaciones.getText();
         
             CursoDaoImp cdi = CursoDaoImp.getInstance();
             Curso c = new Curso();
 
+            Object valor1 = jtCursoAca.getValueAt(jtCursoAca.getSelectedRow(), 0);
+            String strValor1 = (String) valor1;
+            int idcursoacademico = Integer.parseInt(strValor1);
+            
             c.setCodigo(codigo);
             c.setNombre(nombre);
             c.setObservaciones(observaciones);
-            c.setIdcursoacademico(Integer.valueOf(idcursoaca));
+            c.setIdcursoacademico(idcursoacademico);
             
             try {
                 cdi.add(c);
@@ -219,20 +304,23 @@ public class frmCursoDetalle extends javax.swing.JFrame {
             String codigo = txtCodigo.getText();
             String nombre = txtNombre.getText();
             String observaciones = txtObservaciones.getText();
-            int idcursoacademico = Integer.valueOf(txtIdCursoaca.getText());
             
             CursoDaoImp cdi = CursoDaoImp.getInstance();
             Curso c = new Curso();
 
+            Object valor1 = jtCursoAca.getValueAt(jtCursoAca.getSelectedRow(), 0);
+            String strValor1 = (String) valor1;
+            int idcursoaca = Integer.parseInt(strValor1);
+            
             c.setId(id);
             c.setCodigo(codigo);
             c.setNombre(nombre);
             c.setObservaciones(observaciones);
-            c.setIdcursoacademico(idcursoacademico);
+            c.setIdcursoacademico(idcursoaca);
             
             try {
                 cdi.update(c);
-                JOptionPane.showMessageDialog(this, "Usuario modificado");
+                JOptionPane.showMessageDialog(this, "Curso modificado");
                 this.dispose();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
@@ -241,6 +329,14 @@ public class frmCursoDetalle extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se han rellenado todos los campos.");
         }
     }//GEN-LAST:event_btnModificarMouseClicked
+
+    private void jtCursoAcaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtCursoAcaMouseClicked
+        // TODO add your handling code here:
+        Object valor = jtCursoAca.getValueAt(jtCursoAca.getSelectedRow(), 3);
+        String cursoaca = (String) valor;
+        
+        txtIdCursoaca.setText(cursoaca);
+    }//GEN-LAST:event_jtCursoAcaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -285,9 +381,12 @@ public class frmCursoDetalle extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jtCursoAca;
     private javax.swing.JLabel lblId;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtId;
